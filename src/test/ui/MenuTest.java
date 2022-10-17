@@ -19,7 +19,7 @@ public class MenuTest {
     }
 
     @Test
-    // Simple test for constructor, only testable thing is if player remains null
+    // Simple test for constructor, only testable thing is player remains null
     void menuTest() {
         assertNotNull(testMenu.getPlayer());
     }

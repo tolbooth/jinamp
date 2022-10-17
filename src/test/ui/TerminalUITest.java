@@ -24,6 +24,7 @@ public class TerminalUITest {
     Menu testMenu;
 
     @BeforeEach
+    // Initialize members
     void init() {
         testTermUI = new TerminalUI();
         testMenu = new Menu();

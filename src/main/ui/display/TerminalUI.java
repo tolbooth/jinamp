@@ -7,7 +7,7 @@ import java.util.Scanner;
 /*
 The UI logic for project. Provides a number of menus and the ability
 for the user to make choices based on them.
-Makes calls to ui/menu for actual interaction with player object.
+Make calls to ui/menu for actual interaction with player object.
  */
 
 public class TerminalUI {

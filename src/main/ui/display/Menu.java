@@ -12,7 +12,6 @@ Serves as the link between user interaction and functionality
 
 public class Menu {
 
-
     private File directory;
     private String[] listOfFileNames;
     private ArrayList<File> playableFiles;

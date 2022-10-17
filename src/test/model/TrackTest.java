@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TrackTest {
 
     @Test
+    // Simple constructor test
     void testTrack() {
         File file = new File("./././data/nicolasJaarDivorce.wav ");
         Track track = new Track(file);
