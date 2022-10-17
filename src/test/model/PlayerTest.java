@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
+import java.util.LinkedList;
 
 public class PlayerTest {
     private Track testTrack1;
@@ -77,5 +78,24 @@ public class PlayerTest {
         assertEquals(testPlayer.getTrack(0), testTrack2);
         testPlayer.dequeueTrack();
         assertTrue(testPlayer.getQueue().isEmpty());
+    }
+
+    @Test
+    public void testAssignTrack() {
+        testPlayer.assignTrack(testTrack1);
+        assertNotNull(testPlayer.getCurrentTrack());
+    }
+
+    public void getQueue() {
+        testPlayer.enqueueTrack(testTrack1);
+        testPlayer.enqueueTrack(testTrack2);
+        assertEquals(testPlayer.getQueue().getFirst(), testTrack1);
+        assertEquals(testPlayer.getQueue().getLast(), testTrack2);
+    }
+
+    public void getTrack() {
+        testEnqueueTrack();
+        assertEquals(testPlayer.getTrack(0), testTrack1);
+        assertEquals(testPlayer.getTrack(1), testTrack2);
     }
 }
