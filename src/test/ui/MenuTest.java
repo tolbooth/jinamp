@@ -26,7 +26,7 @@ public class MenuTest {
 
     @Test
     void displayListTest() {
-       // This method is best tested visually
+       // This method is tested visually
         testMenu.displayList();
     }
 

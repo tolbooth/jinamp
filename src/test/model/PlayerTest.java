@@ -12,6 +12,7 @@ public class PlayerTest {
     private Player testPlayer;
 
     @BeforeEach
+    // Initialize data members
     void init() {
         File file = new File("./././data/nicolasJaarDivorce.wav");
         testTrack1 = new Track(file);

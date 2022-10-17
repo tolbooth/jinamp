@@ -13,6 +13,7 @@ public class TrackTest {
     @Test
     // Simple constructor test
     void testTrack() {
+        // Relative path
         File file = new File("./././data/nicolasJaarDivorce.wav ");
         Track track = new Track(file);
         assertEquals(track.getTrackName(), file.getName());
