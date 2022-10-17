@@ -10,7 +10,7 @@ import java.io.File;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MenuTest {
-
+/*
     Menu testMenu;
 
     @BeforeEach
@@ -49,4 +49,6 @@ public class MenuTest {
     }
     // No need for tests for playPause, stopPlay, as they are just containers for
     // methods already tested in player.
+
+ */
 }
