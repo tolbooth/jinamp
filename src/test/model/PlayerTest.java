@@ -36,6 +36,7 @@ public class PlayerTest {
             assertTrue(testPlayer.getIsPlaying());
         } catch (Exception e) {
             System.out.println("Issue with the player constructor");
+            fail();
         }
     }
 
@@ -48,6 +49,7 @@ public class PlayerTest {
             assertTrue(testPlayer.pauseResumeTrack());
         } catch (Exception e) {
             System.out.println("Issue with play/pause!");
+            fail();
         }
     }
 
@@ -60,6 +62,7 @@ public class PlayerTest {
             assertFalse(testPlayer.getIsPlaying());
         } catch (Exception e) {
             System.out.println("Issue with stopping track");
+            fail();
         }
     }
 
