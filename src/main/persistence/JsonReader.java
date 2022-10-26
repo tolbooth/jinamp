@@ -33,9 +33,13 @@ public class JsonReader {
 
     // EFFECTS: reads source file as string and returns it
     private String readFile(String source) throws IOException {
+        // String builder useful as it allows mutability
         StringBuilder contentBuilder = new StringBuilder();
 
+        // try-with-resources, populates String stream with all lines from source file
+        // assuming UTF_8 characters.
         try (Stream<String> stream = Files.lines(Paths.get(source), StandardCharsets.UTF_8)) {
+            // Lambda expression. For each element in stream, append to stringBuilder
             stream.forEach(s -> contentBuilder.append(s));
         }
 
