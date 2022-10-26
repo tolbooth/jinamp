@@ -42,7 +42,7 @@ public class JsonReader {
         return contentBuilder.toString();
     }
 
-    // EFFECTS: parses workroom from JSON object and returns it
+    // EFFECTS: parses player from JSON object and returns it
     private Player parsePlayer(JSONObject jsonObject) {
         // Check that there is a current track to load
         String trackName = jsonObject.getString("track");

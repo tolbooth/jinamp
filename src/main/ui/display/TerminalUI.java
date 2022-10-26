@@ -20,6 +20,10 @@ public class TerminalUI {
 
     public TerminalUI() {
         menu = new Menu();
+        menu.loadState();
+        if (!menu.getPlayer().getCurrentTrack().equals(null)) {
+            loadLastSession = true;
+        }
         usrInput = 0;
     }
 
@@ -71,6 +75,13 @@ public class TerminalUI {
     Note: This method is necessarily long, as it contains most of the logic for a menu
      */
     public void postDisplayListMenu() {
+        // If we've loaded from file and there was a previously saved state,
+        if (loadLastSession) {
+            loadLastSession = false;
+            // menu.getPlayer().pauseResumeTrack();
+            postPlayTrack();
+        }
+
         while (isRunning) {
             clear();
             menu.displayList();

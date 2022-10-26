@@ -51,10 +51,6 @@ public class Menu {
         }
     }
 
-    public Menu(boolean resume) {
-
-    }
-
     /* EFFECTS: Prints a list of all playable files to console
      */
     public void displayList() {

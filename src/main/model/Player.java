@@ -24,8 +24,9 @@ public class Player implements Writeable {
     public Player(Track cr, long cp) {
         currentTrack = cr;
         currentPosition = cp;
+        currentTrack.accessClip().setMicrosecondPosition(currentPosition);
         isPlaying = false;
-        pauseResumeTrack();
+        playQueue = new LinkedList<>();
     }
 
     /* EFFECTS: Sets current track null, and isPlaying to false.
@@ -81,6 +82,8 @@ public class Player implements Writeable {
         currentTrack.accessClip().stop();
         currentTrack.accessClip().setFramePosition(0);
         currentTrack.accessClip().close();
+
+        currentPosition = 0;
 
         isPlaying = false;
     }
