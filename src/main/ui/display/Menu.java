@@ -1,7 +1,12 @@
 package ui.display;
 
 import model.*;
+import persistence.JsonReader;
+import persistence.JsonWriter;
+
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -11,11 +16,15 @@ Serves as the link between user interaction and functionality
  */
 
 public class Menu {
+    private static final String SAVED_STATE_PATH = "./././data/LastSession";
 
     private File directory;
     private String[] listOfFileNames;
     private ArrayList<File> playableFiles;
     private Player player;
+
+    private JsonReader reader;
+    private JsonWriter writer;
 
     /* EFFECTS: instantiates a menu object with relevant information to
     working directory for accessing files. Also creates a list of
@@ -27,6 +36,8 @@ public class Menu {
         listOfFileNames = directory.list();
         playableFiles = new ArrayList<>();
         player = new Player();
+        reader = new JsonReader(SAVED_STATE_PATH);
+        writer = new JsonWriter(SAVED_STATE_PATH);
 
         // setup makes the run function much simpler
         for (String fileName : listOfFileNames) {
@@ -38,6 +49,10 @@ public class Menu {
                 playableFiles.add(new File(directory.getPath().concat("/" + fileName)));
             }
         }
+    }
+
+    public Menu(boolean resume) {
+
     }
 
     /* EFFECTS: Prints a list of all playable files to console
@@ -128,6 +143,32 @@ public class Menu {
         } catch (Exception e) {
             e.getCause();
             e.getStackTrace();
+        }
+    }
+
+    /* EFFECTS: Saves the state of menus player. If exception is encountered,
+    print stack trace.
+    MODIFIES: LastSession.json
+     */
+    public void saveState() {
+        try {
+            writer.open();
+            writer.write(this.player);
+            writer.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /* EFFECTS: Loads state of last session player from file.
+    If exception is encountered, displays error
+    MODIFIES: this
+     */
+    public void loadState() {
+        try {
+            this.player = reader.read();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

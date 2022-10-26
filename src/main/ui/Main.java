@@ -2,6 +2,8 @@ package ui;
 
 import ui.display.TerminalUI;
 
+import java.util.Scanner;
+
 /*
     The main method. Starts the UI.
  */

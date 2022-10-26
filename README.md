@@ -29,4 +29,5 @@ expressed in an object-oriented paradigm.
 * As a user, I want to be able to add a track to my queue
 * As a user, I want to be able to view the next track in my queue
 * As a user, I want to be able to play and pause a track
-
+* As a user, I want to be able to create and save a playlist
+* As a user, I want to be able to load a playlist from file

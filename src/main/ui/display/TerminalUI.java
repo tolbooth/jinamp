@@ -15,6 +15,7 @@ public class TerminalUI {
     private boolean isRunning;
     private Scanner scan;
     private Menu menu;
+    private boolean loadLastSession;
     int usrInput;
 
     public TerminalUI() {
@@ -22,6 +23,7 @@ public class TerminalUI {
         usrInput = 0;
     }
 
+    @SuppressWarnings("methodlength")
     /* EFFECTS: Runs the actual menu system. Provides user with choices
     and takes their input, resulting in a variety of effects.
 
@@ -29,19 +31,17 @@ public class TerminalUI {
 
      */
     public void run() {
-        scan = new Scanner(System.in);
         isRunning = true;
-
         System.out.println("Welcome" + "\n"
                 + "Please enter a choice in the menu");
         System.out.println("1. Display list of playable music files" + "\n"
                 + "2. Exit");
         System.out.print("Your choice: ");
+        scan = new Scanner(System.in);
         usrInput = scan.nextInt();
 
         while (isRunning) {
             switch (usrInput) {
-
                 case 1 : // Display list of playable music files
                     menu.displayList();
                     postDisplayListMenu();
@@ -103,6 +103,7 @@ public class TerminalUI {
                     break;
                 case 4 : // Exit
                     isRunning = false;
+                    menu.saveState();
                     break;
                 default :
                     System.out.println("Please enter a valid menu choice");
@@ -153,6 +154,7 @@ public class TerminalUI {
                 case 4:
                     goBack = true;
                     isRunning = false;
+                    menu.saveState();
                     break;
                 default :
                     System.out.println("Please enter a valid menu choice");

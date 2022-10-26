@@ -1,6 +1,8 @@
 package model;
 
-import java.util.ArrayList;
+import org.json.JSONObject;
+import persistence.Writeable;
+
 import java.util.LinkedList;
 
 /*
@@ -8,16 +10,27 @@ Represents the core audio player of the project. Handles track objects and provi
 functionality for their manipulation
  */
 
-public class Player {
+public class Player implements Writeable {
 
     private LinkedList<Track> playQueue;
     private Track currentTrack;
     private long currentPosition;
     private Boolean isPlaying;
 
-    /* EFFECTS: Sets current track null, and isPlaying to false.
-       Creates an empty queue.
+
+    /* EFFECTS: given a track and a position, resumes
+    play. Useful for reopening a session.
      */
+    public Player(Track cr, long cp) {
+        currentTrack = cr;
+        currentPosition = cp;
+        isPlaying = false;
+        pauseResumeTrack();
+    }
+
+    /* EFFECTS: Sets current track null, and isPlaying to false.
+      Creates an empty queue.
+    */
     public Player() {
         currentTrack = null;
         currentPosition = 0;
@@ -90,6 +103,18 @@ public class Player {
     // REQUIRES: Instantiated track
     public void assignTrack(Track track) {
         currentTrack = track;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        if (currentTrack != null) {
+            json.put("track", currentTrack.getTrackName());
+        } else {
+            json.put("track", "null");
+        }
+        json.put("position", currentPosition);
+        return json;
     }
 
     public boolean getIsPlaying() {
