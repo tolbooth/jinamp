@@ -23,7 +23,7 @@ public class JsonReader {
         this.file = new File(fileName);
     }
 
-    // EFFECTS: reads workroom from file and returns it;
+    // EFFECTS: reads player from file and returns it;
     // throws IOException if an error occurs reading data from file
     public Player read() throws IOException {
         String jsonData = readFile(file.getPath());

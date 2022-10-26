@@ -11,6 +11,7 @@ public class PlayerTest {
     private Track testTrack1;
     private Track testTrack2;
     private Player testPlayer;
+    private Player testPlayerCrCp;
 
     @BeforeEach
     // Initialize data members
@@ -27,6 +28,12 @@ public class PlayerTest {
         assertTrue(testPlayer.getQueue().isEmpty());
         assertFalse(testPlayer.getIsPlaying());
         assertEquals(testPlayer.getCurrentPosition(), 0);
+
+        testPlayerCrCp = new Player(testTrack1, 700000);
+        assertEquals(testPlayerCrCp.getCurrentTrack(), testTrack1);
+        assertTrue(testPlayerCrCp.getQueue().isEmpty());
+        assertFalse(testPlayerCrCp.getIsPlaying());
+        assertEquals(testPlayerCrCp.getCurrentPosition(), 700000);
     }
 
     @Test

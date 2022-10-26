@@ -12,7 +12,7 @@ import org.json.*;
 public class JsonWriter {
     private PrintWriter printWriter;
     private String path;
-    private static final int TAB = 4;
+
 
     // REQUIRES: fileName be full abstract path to target file
     public JsonWriter(String path) {
@@ -30,7 +30,7 @@ public class JsonWriter {
     // EFFECTS: writes JSON representation of player to file
     public void write(Player player) {
         JSONObject json = player.toJson();
-        saveToFile(json.toString(TAB));
+        saveToFile(json.toString());
     }
 
     // MODIFIES: this

@@ -43,6 +43,7 @@ public class JsonWriterTest {
             fail("Exception should not have been thrown");
         }
     }
+
     @Test
     void testWriterTypicalPlayer() {
         try {
