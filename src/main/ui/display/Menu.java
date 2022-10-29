@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /*
 Core element of the UI that actually interacts with the Player.
@@ -23,8 +22,8 @@ public class Menu {
     private ArrayList<File> playableFiles;
     private Player player;
 
-    private JsonReader reader;
-    private JsonWriter writer;
+    private JsonReader playerReader;
+    private JsonWriter playerWriter;
 
     /* EFFECTS: instantiates a menu object with relevant information to
     working directory for accessing files. Also creates a list of
@@ -36,8 +35,8 @@ public class Menu {
         listOfFileNames = directory.list();
         playableFiles = new ArrayList<>();
         player = new Player();
-        reader = new JsonReader(SAVED_STATE_PATH);
-        writer = new JsonWriter(SAVED_STATE_PATH);
+        playerReader = new JsonReader(SAVED_STATE_PATH);
+        playerWriter = new JsonWriter(SAVED_STATE_PATH);
 
         // setup makes the run function much simpler
         for (String fileName : listOfFileNames) {
@@ -142,15 +141,61 @@ public class Menu {
         }
     }
 
+
+    /* EFFECTS: Makes a playlist which is stored as a file
+    in the data folder. Associates tags.
+   MODIFIES: LastSession.json
+    */
+    public void makePlayList(String name, String... tags) {
+        JsonWriter playListWriter = new JsonWriter("./././data/" + name);
+        PlayList pl = new PlayList(tags);
+        try {
+            playListWriter.open();
+            playListWriter.writePlayList(pl);
+            playListWriter.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /* EFFECTS: loads playlist from file
+    REQUIRES: name be instantiated
+     */
+    public PlayList loadPlayList(String name) {
+        JsonReader playListReader = new JsonReader("./././data/" + name);
+        PlayList pl = new PlayList();
+        try {
+            // read playlist from file
+            return playListReader.readPlayList();
+        } catch (IOException e) {
+            System.out.println("No such playlist.");
+        }
+        // if no such playlist exists just return an empty untagged playlist
+        return pl;
+    }
+
+    /* EFFECTS: Adds a track to playlist and writes to file
+     REQUIRES: valid name, valid track names.
+     MODIFIES: name.json
+     */
+    public void addToPlayList(String name, String... trackNames) {
+        JsonWriter playListWriter = new JsonWriter("./././data/" + name);
+        PlayList pl = loadPlayList(name);
+        for (String trackName : trackNames) {
+            pl.add(trackName);
+        }
+        playListWriter.writePlayList(pl);
+    }
+
     /* EFFECTS: Saves the state of menus player. If exception is encountered,
     print stack trace.
     MODIFIES: LastSession.json
      */
     public void saveState() {
         try {
-            writer.open();
-            writer.write(this.player);
-            writer.close();
+            playerWriter.open();
+            playerWriter.writePlayer(this.player);
+            playerWriter.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -162,7 +207,7 @@ public class Menu {
      */
     public void loadState() {
         try {
-            this.player = reader.read();
+            this.player = playerReader.readPlayer();
         } catch (IOException e) {
             e.printStackTrace();
         }

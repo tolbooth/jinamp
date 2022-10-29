@@ -7,6 +7,7 @@ import org.json.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.stream.Stream;
 
 /*
@@ -25,10 +26,18 @@ public class JsonReader {
 
     // EFFECTS: reads player from file and returns it;
     // throws IOException if an error occurs reading data from file
-    public Player read() throws IOException {
+    public Player readPlayer() throws IOException {
         String jsonData = readFile(file.getPath());
         JSONObject jsonObject = new JSONObject(jsonData);
         return parsePlayer(jsonObject);
+    }
+
+    // EFFECTS: reads player from file and returns it;
+    // throws IOException if an error occurs reading data from file
+    public PlayList readPlayList() throws IOException {
+        String jsonData = readFile(file.getPath());
+        JSONObject jsonObject = new JSONObject(jsonData);
+        return parsePlayList(jsonObject);
     }
 
     // EFFECTS: reads source file as string and returns it
@@ -44,6 +53,31 @@ public class JsonReader {
         }
 
         return contentBuilder.toString();
+    }
+
+    //EFFECTS: parses playlist from JSON object and returns it.
+    // if add encounters error, tells user no tracks to add
+    private PlayList parsePlayList(JSONObject jsonObject) {
+        ArrayList<String> tags = new ArrayList<>();
+        ArrayList<String> tracks = new ArrayList<>();
+        for (String key : jsonObject.keySet()) {
+            Object obj = jsonObject.get(key);
+            try {
+                if (key.contains("id")) {
+                    tracks.add(obj.toString());
+                } else if (key.contains("tag")) {
+                    tags.add(obj.toString());
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println("No tracks to add");
+            }
+        }
+        // cast toArray from object array to string array
+        PlayList playList = new PlayList(tags.toArray(new String[0]));
+        for (String track : tracks) {
+            playList.add(track);
+        }
+        return playList;
     }
 
     // EFFECTS: parses player from JSON object and returns it

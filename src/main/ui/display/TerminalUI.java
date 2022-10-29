@@ -87,8 +87,11 @@ public class TerminalUI {
             menu.displayList();
             System.out.println("1. Play track" + "\n"
                     + "2. Add track to queue" + "\n"
-                    + "3. Start play from queue" + "\n"
-                    + "4. Exit" + "\n");
+                    + "3. Make new playlist" + "\n"
+                    + "4. Load playlist" + "\n"
+                   // + "5. Add tracks to playlist" + "\n"
+                    + "5. Start play from queue" + "\n"
+                    + "6. Exit" + "\n");
 
             System.out.println(menu.displayQueue());
 
@@ -107,12 +110,33 @@ public class TerminalUI {
                     usrInput = scan.nextInt();
                     menu.addTrack(usrInput);
                     break;
-                case 3 : // Start play from queue
+                case 3 :
+                    System.out.print("Enter playlist name: ");
+                    String plName1 = scan.next();
+                    //System.out.print("Enter playlist tags as comma separated list, if any: ");
+                    //String plTags = scan.nextLine();
+                    menu.makePlayList(plName1); //interpretCommaSepList(plTags)
+                    scan.nextLine();
+                    break;
+                case 4:
+                    System.out.print("Enter playlist name to load: ");
+                    menu.getPlayer().loadFromPlaylist(menu.loadPlayList(scan.next()));
+                    break;
+                /* case 5:
+                    System.out.print("Enter playlist name to add tracks to: ");
+                    String plName2 = scan.next();
+                    System.out.print("Enter tracks you wish to add as comma separated list: ");
+                    String trackList = scan.nextLine();
+                    menu.addToPlayList(plName2, interpretCommaSepList(trackList));
+                    scan.nextLine();
+                    break;
+                 */
+                case 5 : // Start play from queue
                     menu.startPlay();
                     postPlayTrack();
                     // Queue honestly might be hard to figure out exactly.
                     break;
-                case 4 : // Exit
+                case 6 : // Exit
                     isRunning = false;
                     menu.saveState();
                     break;
@@ -171,6 +195,15 @@ public class TerminalUI {
                     System.out.println("Please enter a valid menu choice");
             }
         }
+    }
+
+    /* REQUIRES: tags be valid string
+    EFFECTS: returns a string array by splitting tags around the commas
+     */
+    public String[] interpretCommaSepList(String list) {
+        // any finite concatenation of whitespace followed by the same
+        // allows for no whitespace, as per * operator
+        return list.split("\\s*,\\s*");
     }
 
     /* REQUIRES: currentTrack be instantiated

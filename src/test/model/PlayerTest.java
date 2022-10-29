@@ -82,6 +82,26 @@ public class PlayerTest {
     }
 
     @Test
+    void testLoadFromPlaylist() {
+        PlayList pl = new PlayList("test");
+        pl.add("nicolasJaarDivorce.wav");
+        testPlayer.loadFromPlaylist(pl);
+
+        assertEquals(testPlayer.getQueue().size(), 1);
+        assertEquals(testPlayer.getQueue().getFirst(), pl.getTrackList().getFirst());
+
+
+        try {
+            testPlayer.playTrack(testPlayer.dequeueTrack());
+            assertTrue(testPlayer.getIsPlaying());
+        } catch (Exception e) {
+            System.out.println("Issue with loading from playlist");
+            fail();
+        }
+
+    }
+
+    @Test
     void testDequeueTrack() {
         testEnqueueTrack();
         testPlayer.dequeueTrack();
@@ -96,14 +116,22 @@ public class PlayerTest {
         assertNotNull(testPlayer.getCurrentTrack());
     }
 
-    public void getQueue() {
+    @Test
+    void testToJSON() {
+        // Functionality of this is tested in persistence test suites
+        assertNotNull(testPlayer.toJson());
+    }
+
+    @Test
+    public void testGetQueue() {
         testPlayer.enqueueTrack(testTrack1);
         testPlayer.enqueueTrack(testTrack2);
         assertEquals(testPlayer.getQueue().getFirst(), testTrack1);
         assertEquals(testPlayer.getQueue().getLast(), testTrack2);
     }
 
-    public void getTrack() {
+    @Test
+    public void testGetTrack() {
         testEnqueueTrack();
         assertEquals(testPlayer.getTrack(0), testTrack1);
         assertEquals(testPlayer.getTrack(1), testTrack2);

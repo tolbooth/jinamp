@@ -88,6 +88,16 @@ public class Player implements Writeable {
         isPlaying = false;
     }
 
+    /* REQUIRES: Instantiated playlist
+       EFFECTS: Enqueues tracks from playlist
+       MODIFIES: this
+     */
+    public void loadFromPlaylist(PlayList pl) {
+        for (Track t: pl.getTrackList()) {
+            enqueueTrack(t);
+        }
+    }
+
     /* REQUIRES: Instantiated track
        EFFECTS: Enqueues provided track at end of queue
        MODIFIES: this

@@ -15,6 +15,28 @@ public class JsonWriterTest {
         player = new Player();
     }
 
+
+    @Test
+    void testWritePlayList() {
+        try {
+            JsonWriter writer = new JsonWriter("./././data/testPlaylist.json");
+            PlayList pl = new PlayList("beef", "corn", "pozole");
+            pl.add("nicolasJaarPassTheTime.wav");
+
+            writer.open();
+            writer.writePlayList(pl);
+            writer.close();
+
+            JsonReader reader = new JsonReader("./././data/testPlaylist.json");
+            PlayList pl2 = reader.readPlayList();
+
+            assertEquals(pl2.getTrackList().getFirst().getTrackName(), "nicolasJaarPassTheTime.wav");
+            assertNotEquals(pl2.getTags()[0], "untagged");
+        } catch (IOException e) {
+            fail("testWritePlayList should not throw exception");
+        }
+    }
+
     @Test
     void testWriterInvalidFile() {
         try {
@@ -32,11 +54,11 @@ public class JsonWriterTest {
             JsonWriter writer = new JsonWriter("./././data/testWriterNoCurrentTrack.json");
 
             writer.open();
-            writer.write(player);
+            writer.writePlayer(player);
             writer.close();
 
             JsonReader reader = new JsonReader("./././data/testWriterNoCurrentTrack.json");
-            player = reader.read();
+            player = reader.readPlayer();
             assertNull(player.getCurrentTrack());
             assertEquals(0, player.getCurrentPosition());
         } catch (IOException e) {
@@ -54,11 +76,11 @@ public class JsonWriterTest {
             long pos = player.getCurrentPosition();
 
             writer.open();
-            writer.write(player);
+            writer.writePlayer(player);
             writer.close();
 
             JsonReader reader = new JsonReader("./././data/testWriterTypicalPlayer.json");
-            player = reader.read();
+            player = reader.readPlayer();
             assertEquals("nicolasJaarDivorce.wav", player.getCurrentTrack().getTrackName());
             assertEquals(pos, player.getCurrentPosition());
 
