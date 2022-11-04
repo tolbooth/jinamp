@@ -1,13 +1,6 @@
 package ui;
 
-import model.Player;
-import model.Track;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import ui.display.Menu;
 import ui.display.TerminalUI;
-
-import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

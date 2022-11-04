@@ -5,6 +5,10 @@ import persistence.Writeable;
 
 import java.util.LinkedList;
 
+//TODO: Implement seek feature
+//TODO: Transition from Clip to JLayer
+//TODO: Implement menu functionality for manipulating playlists
+
 /*
 Represents the core audio player of the project. Handles track objects and provides
 functionality for their manipulation

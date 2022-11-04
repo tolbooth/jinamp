@@ -10,7 +10,9 @@ import javax.sound.sampled.*;
 public class Track {
 
     private String trackName;
+    private String artistName;
     private Clip clip;
+
 
     /* REQUIRES: file be mono WAV, or other supported audio format by Clip
        EFFECTS: Creates a track using provided file object. Track acts as
@@ -35,6 +37,14 @@ public class Track {
             e.getCause();
             e.getStackTrace();
         }
+    }
+
+    public void setTrackName(String name) {
+        trackName = name;
+    }
+
+    public void setArtistName(String name) {
+        artistName = name;
     }
 
     public Clip accessClip() {

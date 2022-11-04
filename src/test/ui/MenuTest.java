@@ -4,8 +4,7 @@ import model.Player;
 import model.Track;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import persistence.JsonWriter;
-import ui.display.Menu;
+import ui.deprecated.Menu;
 
 import java.io.File;
 

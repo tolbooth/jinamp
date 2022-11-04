@@ -1,4 +1,4 @@
-package ui.display;
+package ui.deprecated;
 
 import model.*;
 import persistence.JsonReader;

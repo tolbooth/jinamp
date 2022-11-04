@@ -1,6 +1,8 @@
 package ui;
 
-import ui.display.TerminalUI;
+import ui.display.UI;
+
+import javax.swing.*;
 
 import java.util.Scanner;
 
@@ -9,8 +11,8 @@ import java.util.Scanner;
  */
 public class Main {
     public static void main(String[] args) {
-        // Start it up!
-        TerminalUI fullPlayer = new TerminalUI();
-        fullPlayer.run();
+        JFrame userInterface = new UI();
+        userInterface.setVisible(true);
+        userInterface.setDefaultCloseOperation(userInterface.EXIT_ON_CLOSE);
     }
 }
