@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.stream.Stream;
 
 /*
@@ -16,32 +17,19 @@ import java.util.stream.Stream;
  instantiates a new player with that.
  */
 
-public class JsonReader {
-    private File file;
+public abstract class JsonReader {
+    protected File file;
+    protected TrackBuilder trackBuilder;
 
     // REQUIRES: fileName be full abstract path to target file
     public JsonReader(String fileName) {
         this.file = new File(fileName);
     }
 
-    // EFFECTS: reads player from file and returns it;
-    // throws IOException if an error occurs reading data from file
-    public Player readPlayer() throws IOException {
-        String jsonData = readFile(file.getPath());
-        JSONObject jsonObject = new JSONObject(jsonData);
-        return parsePlayer(jsonObject);
-    }
-
-    // EFFECTS: reads player from file and returns it;
-    // throws IOException if an error occurs reading data from file
-    public PlayList readPlayList() throws IOException {
-        String jsonData = readFile(file.getPath());
-        JSONObject jsonObject = new JSONObject(jsonData);
-        return parsePlayList(jsonObject);
-    }
+    public abstract Writeable read() throws IOException;
 
     // EFFECTS: reads source file as string and returns it
-    private String readFile(String source) throws IOException {
+    protected String readFile(String source) throws IOException {
         // String builder useful as it allows mutability
         StringBuilder contentBuilder = new StringBuilder();
 
@@ -55,43 +43,31 @@ public class JsonReader {
         return contentBuilder.toString();
     }
 
-    //EFFECTS: parses playlist from JSON object and returns it.
-    // if add encounters error, tells user no tracks to add
-    private PlayList parsePlayList(JSONObject jsonObject) {
-        ArrayList<String> tags = new ArrayList<>();
-        ArrayList<String> tracks = new ArrayList<>();
-        for (String key : jsonObject.keySet()) {
-            Object obj = jsonObject.get(key);
-            try {
-                if (key.contains("id")) {
-                    tracks.add(obj.toString());
-                } else if (key.contains("tag")) {
-                    tags.add(obj.toString());
-                }
-            } catch (IllegalArgumentException e) {
-                System.out.println("No tracks to add");
-            }
-        }
-        // cast toArray from object array to string array
-        PlayList playList = new PlayList(tags.toArray(new String[0]));
-        for (String track : tracks) {
-            playList.add(track);
-        }
-        return playList;
+    // EFFECTS: Parses track from json object
+    protected Track parseTrack(JSONObject jsonObj) {
+        trackBuilder = new TrackBuilder();
+        return trackBuilder.buildTrack(jsonObj.getString("filename"),
+                jsonObj.getString("trackName"), jsonObj.getString("artistName"));
+
     }
 
-    // EFFECTS: parses player from JSON object and returns it
-    private Player parsePlayer(JSONObject jsonObject) {
-        // Check that there is a current track to load
-        String trackName = jsonObject.getString("track");
-        if (!trackName.equals("null")) {
-            File file = new File("./././data/"
-                    + trackName);
-            Track track = new Track(file);
-            long pos = jsonObject.getLong("position");
-            return new Player(track, pos);
+    //EFFECTS: parses playlist from JSON object and returns it.
+    // if add encounters error, tells user no tracks to add
+    protected Playlist parsePlayList(JSONObject jsonObject) {
+        JSONArray trackJArr = jsonObject.getJSONArray("tracks");
+        JSONArray tagJArr = jsonObject.getJSONArray("tags");
+        HashSet<String> tags = new HashSet<>();
+        ArrayList<Track> tracks = new ArrayList<>();
+
+        for (Object o : tagJArr) {
+            tags.add((String)o);
         }
-        // implicit else -- just make new player
-        return new Player();
+        // cast toArray from object array to string array
+        Playlist playlist = new Playlist(jsonObject.get("name").toString(), tags);
+
+        for (int i = 0; i < trackJArr.length(); i++) {
+            playlist.addTrack(parseTrack(trackJArr.getJSONObject(i)));
+        }
+        return playlist;
     }
 }

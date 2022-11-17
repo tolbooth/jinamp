@@ -9,10 +9,9 @@ import org.json.*;
  Represents a writer that stores current state information in
  a json file
  */
-public class JsonWriter {
-    private PrintWriter printWriter;
-    private String path;
-
+public abstract class JsonWriter {
+    protected PrintWriter printWriter;
+    protected String path;
 
     // REQUIRES: fileName be full abstract path to target file
     public JsonWriter(String path) {
@@ -30,17 +29,7 @@ public class JsonWriter {
 
     // MODIFIES: this
     // EFFECTS: writes JSON representation of player to file
-    public void writePlayer(Player player) {
-        JSONObject json = player.toJson();
-        saveToFile(json.toString());
-    }
-
-    // MODIFIES: this
-    // EFFECTS: writes JSON representation of player to file
-    public void writePlayList(PlayList playList) {
-        JSONObject json = playList.toJson();
-        saveToFile(json.toString());
-    }
+    public abstract void write(Writeable object);
 
     // MODIFIES: this
     // EFFECTS: closes writer
@@ -50,7 +39,7 @@ public class JsonWriter {
 
     // MODIFIES: this
     // EFFECTS: writes string to file
-    private void saveToFile(String json) {
+    protected void saveToFile(String json) {
         printWriter.print(json);
     }
 

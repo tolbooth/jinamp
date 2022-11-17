@@ -1,6 +1,9 @@
 package ui.display;
 
+import model.Library;
+import model.Player;
 import ui.elements.PlaybackButton;
+import ui.interaction.UserFunctions;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,6 +20,9 @@ public class UI extends JFrame {
     private static final String SKIP_B = "SkipBackButton";
 
 
+    public UI(Library library, Player player, UserFunctions userFunctions) {
+
+    }
 
     public UI() {
         setTitle("JinAmp");

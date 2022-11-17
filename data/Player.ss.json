@@ -1,0 +1,16 @@
+{
+  "track" : {
+    "filename" : "./././data/nicolasJaarDivorce.wav",
+    "trackName" : "Divorce",
+    "artistName" : "Nicolas Jaar"
+  },
+  "position" : 0,
+  "playlistPosition" : 0,
+  "playlist" : {
+    "name" : "default",
+    "tags" : [
+    ],
+    "tracks" : [
+    ]
+  }
+}

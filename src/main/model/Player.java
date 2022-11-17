@@ -16,121 +16,98 @@ functionality for their manipulation
 
 public class Player implements Writeable {
 
-    private LinkedList<Track> playQueue;
+    private Playlist currentPlaylist;
+    private int playListPosition;
     private Track currentTrack;
     private long currentPosition;
     private Boolean isPlaying;
 
-
-    /* EFFECTS: given a track and a position, resumes
-    play. Useful for reopening a session.
-     */
-    public Player(Track cr, long cp) {
+    // EFFECTS: Instantiates a player with given information
+    // Note: Player must only be read in from file.
+    public Player(Track cr, long cp, int playlistPosition, Playlist playlist) {
         currentTrack = cr;
+        currentPlaylist = playlist;
         currentPosition = cp;
         currentTrack.accessClip().setMicrosecondPosition(currentPosition);
         isPlaying = false;
-        playQueue = new LinkedList<>();
+
     }
 
-    /* EFFECTS: Sets current track null, and isPlaying to false.
-      Creates an empty queue.
-    */
-    public Player() {
-        currentTrack = null;
-        currentPosition = 0;
-        isPlaying = false;
-        playQueue = new LinkedList<>();
-    }
-
-    /* REQUIRES: Instantiated track
-       EFFECTS: Starts playback of track
-       MODIFIES: this
-     */
-    public void playTrack(Track track) {
+//      EFFECTS: Starts playback of track
+//      MODIFIES: this
+    public void playTrack() {
         if (!isPlaying) {
-            assignTrack(track);
-            // Ensure that track plays from position 0.
-            currentTrack.accessClip().setFramePosition(0);
-            currentTrack.accessClip().start();
-            isPlaying = true;
-        }
-    }
-
-    /* REQUIRES: Instantiated track
-       EFFECTS: Pauses or Starts playback of track based on current play state of track
-       MODIFIES: this, track
-    */
-    public boolean pauseResumeTrack() {
-        if (isPlaying) {
-            // Store current position before stopping playback
-            currentPosition  = currentTrack.accessClip().getMicrosecondPosition();
-            currentTrack.accessClip().stop();
-            isPlaying = false;
-        } else {
             // Set the playback position in track to currentPosition
             currentTrack.accessClip().setMicrosecondPosition(currentPosition);
             currentTrack.accessClip().start();
             isPlaying = true;
         }
-        return isPlaying;
     }
 
-    /* REQUIRES: Instantiated track
-       EFFECTS: Stops playback of track -- sets current track to null.
-       New track will need to be found.
-       MODIFIES: this, track
-    */
-    public void stopTrack() {
+//      EFFECTS: Pauses playback of track
+//      MODIFIES: this
+    public boolean pauseTrack() {
+        if (isPlaying) {
+            // Store current position before stopping playback
+            currentPosition = currentTrack.accessClip().getMicrosecondPosition();
+            currentTrack.accessClip().stop();
+            isPlaying = false;
+        }
+        return false;
+    }
 
+//      EFFECTS: Stops playback of track.
+//      MODIFIES: this
+    public void stopTrack() {
         currentTrack.accessClip().stop();
         currentTrack.accessClip().setFramePosition(0);
         currentTrack.accessClip().close();
-
         currentPosition = 0;
-
         isPlaying = false;
     }
 
-    /* REQUIRES: Instantiated playlist
-       EFFECTS: Enqueues tracks from playlist
-       MODIFIES: this
-     */
-    public void loadFromPlaylist(PlayList pl) {
-        for (Track t: pl.getTrackList()) {
-            enqueueTrack(t);
-        }
+//      EFFECTS: Moves play to next track in playlist
+//      MODIFIES: this
+    public void nextTrack() {
+        stopTrack();
+        currentTrack = currentPlaylist.getTrack(playListPosition++);
+        playTrack();
     }
 
-    /* REQUIRES: Instantiated track
-       EFFECTS: Enqueues provided track at end of queue
-       MODIFIES: this
-     */
+//      EFFECTS: Moves play to previous track in playlist
+//      MODIFIES: this
+    public void previousTrack() {
+        stopTrack();
+        currentTrack = currentPlaylist.getTrack(playListPosition--);
+        playTrack();
+    }
+
+//      REQUIRES: Instantiated track
+//      EFFECTS: Enqueues provided track at end of queue
+//      MODIFIES: this
     public void enqueueTrack(Track track) {
-        playQueue.add(track);
+        currentPlaylist.addTrack(track);
     }
 
-    /* EFFECTS: Dequeues the first track in queue
-       MODIFIES: this
-     */
-    public Track dequeueTrack() {
-        return playQueue.removeFirst();
-    }
 
-    // REQUIRES: Instantiated track
+//      MODIFIES: this
     public void assignTrack(Track track) {
+        if (track.equals(null)) {
+            throw new IllegalArgumentException("Must provide instantiated track to player");
+        }
         currentTrack = track;
+        currentTrack.accessClip().setFramePosition(0);
+        currentPosition = 0;
     }
 
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        if (currentTrack != null) {
-            json.put("track", currentTrack.getTrackName());
-        } else {
-            json.put("track", "null");
-        }
+        json.put("track", currentTrack.toJson());
         json.put("position", currentPosition);
+        json.put("playlistPosition", playListPosition);
+        // Is this what I want to do?
+        json.put("playlist", currentPlaylist.toJson());
         return json;
     }
 
@@ -146,12 +123,12 @@ public class Player implements Writeable {
         return currentTrack;
     }
 
-    public LinkedList<Track> getQueue() {
-        return playQueue;
+    public Playlist getCurrentPlaylist() {
+        return currentPlaylist;
     }
 
     public Track getTrack(int i) {
-        return playQueue.get(i);
+        return currentPlaylist.getTrack(i);
     }
 
 
