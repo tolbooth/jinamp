@@ -67,7 +67,7 @@ public class Library implements Writeable {
         for (Track t: trackList) {
             trackListJArr.put(t.toJson());
         }
-        json.put("library:", trackListJArr);
+        json.put("library", trackListJArr);
         return json;
     }
 

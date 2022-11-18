@@ -3,12 +3,19 @@
 ## General Idea
 
 This project is a simple audio player for listening to your
-favorite tunes! Initially working through a terminal based
-UI, a basic GUI will be implemented at a later date. Due to
-deficiencies with Java's audio format handling, it will only
-play a specific set of formats. In the case of this project,
-I choose to assume the user will only provide uncompressed
-MONO .wav files, and not .mp3 simply wrapped as .wav
+favorite tunes! Now fleshed out with a Swing GUI and a persistent library!
+In the case of this project, I choose to assume the user will only provide uncompressed
+MONO .wav files, and not .mp3 simply wrapped as .wav. 
+
+# Instructions for Grader
+
+- You can generate the first required event related to adding Xs to a Y by adding a new Track to the library
+through the AddTrackPane. Input the artist name and track name into required fields, and the associated
+file will be added to the library as a Track with those values.
+- You can generate the second required event related to adding Xs to a Y by...
+- You can locate my visual component by... Viewing the player
+- You can save the state of my application by... The state of the application is automatically saved
+- You can reload the state of my application by... The state of the application is automatically reloaded
 
 ## For Who?
 

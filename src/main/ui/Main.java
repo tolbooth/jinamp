@@ -1,6 +1,7 @@
 package ui;
 
 import model.Core;
+import model.Track;
 import ui.display.AddTrackPane;
 import ui.display.UI;
 
@@ -18,15 +19,14 @@ public class Main {
     public static void main(String[] args) {
         Core core = new Core();
 
-        if (core.checkNewTracks()) {
-            TestThread testThread = new TestThread(core);
-            try {
-                testThread.join();
-                core.getFileHandler().write(core.getLibrary());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                core.checkNewTracks();
+                UI ui = new UI(core);
+                ui.startGUI();
             }
-        }
+        });
+
 
         //UI userInterface = new UI(core.getLibrary(), core.getPlayer(), core.getUserFunctions());
     }

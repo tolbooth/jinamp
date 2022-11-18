@@ -5,17 +5,14 @@ import org.json.JSONObject;
 import persistence.Writeable;
 
 import java.io.File;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /*
 Represents a playlist that is stored as a JSON file
  */
 
 public class Playlist implements Writeable {
-    private List<Track> trackList;
+    private ArrayList<Track> trackList;
     private String name;
     private Set<String> tags;
 
@@ -24,7 +21,7 @@ public class Playlist implements Writeable {
             throw new IllegalArgumentException("Playlist name must not be null");
         }
 
-        trackList = new LinkedList<>();
+        trackList = new ArrayList<>();
         this.name = name;
     }
 
@@ -42,12 +39,25 @@ public class Playlist implements Writeable {
         }
     }
 
+    // EFFECTS: Returns an arraylist containing all tracks in playlist
+    public ArrayList<Track> getTrackList() {
+        return trackList;
+    }
+
     public String getName() {
         return name;
     }
 
     public void addTrack(Track track) {
         trackList.add(track);
+    }
+
+    public void addTrack(Track track, int i) {
+        try {
+            trackList.add(i, track);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
     }
 
     public Boolean removeTrack(Track track) {

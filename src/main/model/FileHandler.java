@@ -45,7 +45,7 @@ public class FileHandler implements SeesFiles {
         ArrayList<String> playableFiles = new ArrayList<>();
         for (String s : directory.list()) {
             if (s.endsWith(TRACK_FILE_EXTENSION)) {
-                playableFiles.add(s);
+                playableFiles.add(FILE_PATH + s);
             }
         }
         return playableFiles;
@@ -93,9 +93,9 @@ public class FileHandler implements SeesFiles {
     // not conform to naming standards
     public Writeable read(String source) throws IOException {
         if (source.endsWith(PLAYLIST_FILE_EXTENSION)) {
-            return readPlayer(FILE_PATH + source);
-        } else if (source.endsWith(SAVE_STATE_FILE_EXTENSION)) {
             return readPlaylist(FILE_PATH + source);
+        } else if (source.endsWith(SAVE_STATE_FILE_EXTENSION)) {
+            return readPlayer(FILE_PATH + source);
         } else if (source.endsWith(LIBRARY_STATE_FILE_EXTENSION)) {
             return readLibrary(FILE_PATH + source);
         } else {
