@@ -3,8 +3,6 @@ package model;
 import org.json.JSONObject;
 import persistence.Writeable;
 
-import java.util.LinkedList;
-
 /*
 Represents the core audio player of the project. Handles track objects and provides
 functionality for their manipulation
@@ -16,7 +14,6 @@ public class Player implements Writeable {
     private int playListPosition;
     private Track currentTrack;
     private long currentPosition;
-    private Boolean isPlaying;
 
     // EFFECTS: Instantiates a player with given information
     // Note: Player must only be read in from file.
@@ -24,19 +21,17 @@ public class Player implements Writeable {
         currentTrack = cr;
         currentPlaylist = playlist;
         currentPosition = cp;
+        playListPosition = playlistPosition;
         currentTrack.accessClip().setMicrosecondPosition(currentPosition);
-        isPlaying = false;
-
     }
 
 //      EFFECTS: Starts playback of track
 //      MODIFIES: this
     public void playTrack() {
-        if (!isPlaying) {
+        if (!currentTrack.accessClip().isActive()) {
             // Set the playback position in track to currentPosition
             currentTrack.accessClip().setMicrosecondPosition(currentPosition);
             currentTrack.accessClip().start();
-            isPlaying = true;
         }
     }
 
@@ -44,21 +39,21 @@ public class Player implements Writeable {
     //      MODIFIES: this
     public void playTrack(int i) {
         // Set the playback position in track to currentPosition
-        stopTrack();
+//        if (currentTrack.accessClip().isActive()) {
+//            currentTrack.accessClip().stop();
+//        }
         assignTrack(currentPlaylist.getTrack(i));
         currentTrack.accessClip().setMicrosecondPosition(currentPosition);
         currentTrack.accessClip().start();
-        isPlaying = true;
     }
 
 //      EFFECTS: Pauses playback of track
 //      MODIFIES: this
     public boolean pauseTrack() {
-        if (isPlaying) {
+        if (currentTrack.accessClip().isActive()) {
             // Store current position before stopping playback
             currentPosition = currentTrack.accessClip().getMicrosecondPosition();
             currentTrack.accessClip().stop();
-            isPlaying = false;
         }
         return false;
     }
@@ -68,25 +63,27 @@ public class Player implements Writeable {
     public void stopTrack() {
         currentTrack.accessClip().stop();
         currentTrack.accessClip().setFramePosition(0);
-        currentTrack.accessClip().close();
         currentPosition = 0;
-        isPlaying = false;
     }
 
 //      EFFECTS: Moves play to next track in playlist
 //      MODIFIES: this
     public void nextTrack() {
         stopTrack();
-        currentTrack = currentPlaylist.getTrack(playListPosition++);
-        playTrack();
+        if (currentPlaylist.hasNext(playListPosition)) {
+            assignTrack(currentPlaylist.getTrack(++playListPosition));
+            playTrack();
+        }
     }
 
 //      EFFECTS: Moves play to previous track in playlist
 //      MODIFIES: this
     public void previousTrack() {
         stopTrack();
-        currentTrack = currentPlaylist.getTrack(playListPosition--);
-        playTrack();
+        if (currentPlaylist.hasPrev(playListPosition)) {
+            assignTrack(currentPlaylist.getTrack(--playListPosition));
+            playTrack();
+        }
     }
 
 //      REQUIRES: Instantiated track
@@ -139,10 +136,6 @@ public class Player implements Writeable {
         // Is this what I want to do?
         json.put("playlist", currentPlaylist.toJson());
         return json;
-    }
-
-    public boolean getIsPlaying() {
-        return isPlaying;
     }
 
     public long getCurrentPosition() {

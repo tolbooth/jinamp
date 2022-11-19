@@ -40,6 +40,14 @@ public class Playlist implements Writeable {
         }
     }
 
+    public boolean hasNext(int i) {
+        return i < trackList.size() - 1;
+    }
+
+    public boolean hasPrev(int i) {
+        return i > 0;
+    }
+
     // EFFECTS: Returns an arraylist containing all tracks in playlist
     public ArrayList<Track> getTrackList() {
         return trackList;
