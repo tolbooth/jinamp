@@ -44,8 +44,8 @@ public class UI extends JFrame {
     private static final String PLAY = "./././data/graphics/PlayButtonTransparent.png";
     private static final String PAUSE = "./././data/graphics/PauseButtonTransparent.png";
     private static final String STOP = "./././data/graphics/StopButtonTransparent.png";
-    private static final String SKIP_F = "./././data/graphics/SkipForwardButtonTransparent.png";
-    private static final String SKIP_B = "./././data/graphics/SkipBackButtonTransparent.png";
+    private static final String SKIP_F = "./././data/graphics/SkipFwButtonTransparent.png";
+    private static final String SKIP_B = "./././data/graphics/SkipBwButtonTransparent.png";
 
     // EFFECTS: Instantiates a new UI object, creating and organizing components and functionality
     public UI(Core core) {
