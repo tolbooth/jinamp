@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+// Represents a tool for handling all file reading and writing required
+// for player persistence functionality
 
 public class FileHandler implements SeesFiles {
     private PlayerReader playerRead;
@@ -21,10 +23,6 @@ public class FileHandler implements SeesFiles {
     private static final File directory = new File(FILE_PATH);
     private boolean isSetup = false;
 
-    // TODO: Get this implementation working.
-    // focus on the dynamics of file reading, between
-    // savestates and playlists. How does this interface
-    // with library?
     public FileHandler() {
     }
 
@@ -77,6 +75,8 @@ public class FileHandler implements SeesFiles {
         }
     }
 
+    // EFFECTS: writes given library to library json file with given filename.
+    // MODIFIES: this
     public void write(Library library) {
         try {
             libraryWrite = new LibraryWriter(FILE_PATH + LIBRARY_STATE_FILE_NAME);
@@ -103,16 +103,19 @@ public class FileHandler implements SeesFiles {
         }
     }
 
+    // EFFECTS: Reads player from source file and returns it
     private Player readPlayer(String source) throws IOException {
         playerRead = new PlayerReader(source);
         return playerRead.read();
     }
 
+    // EFFECTS: Reads playlist from source file and returns it
     private Playlist readPlaylist(String source) throws IOException {
         playlistRead = new PlaylistReader(source);
         return playlistRead.read();
     }
 
+    // EFFECTS: Reads library from source file and returns it
     private Library readLibrary(String source) throws IOException {
         libraryRead = new LibraryReader(source);
         return libraryRead.read();

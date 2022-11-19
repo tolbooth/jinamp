@@ -19,6 +19,7 @@ public class Main {
     public static void main(String[] args) {
         Core core = new Core();
 
+        // Start UI in the event dispatching thread
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 core.checkNewTracks();
@@ -26,9 +27,6 @@ public class Main {
                 ui.startGUI();
             }
         });
-
-
-        //UI userInterface = new UI(core.getLibrary(), core.getPlayer(), core.getUserFunctions());
     }
 }
 

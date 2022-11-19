@@ -18,27 +18,27 @@ public abstract class JsonWriter {
         this.path = path;
     }
 
-    // MODIFIES: this
     // EFFECTS: opens writer; throws FileNotFoundException if destination file cannot
     // be opened for writing
     // NOTE: should probably split this class into playlist and player. append specific
     // file extension to all playlists to make safe
+    // MODIFIES: this
     public void open() throws FileNotFoundException {
         printWriter = new PrintWriter(new File(path));
     }
 
-    // MODIFIES: this
     // EFFECTS: writes JSON representation of player to file
+    // MODIFIES: this
     public abstract void write(Writeable object);
 
-    // MODIFIES: this
     // EFFECTS: closes writer
+    // MODIFIES: this
     public void close() {
         printWriter.close();
     }
 
-    // MODIFIES: this
     // EFFECTS: writes string to file
+    // MODIFIES: this
     protected void saveToFile(String json) {
         printWriter.print(json);
     }

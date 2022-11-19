@@ -8,6 +8,7 @@ import java.awt.datatransfer.Transferable;
 
 // Drawn in it's entirety from Java Swing tutorials DropDemo project
 // See https://docs.oracle.com/javase/tutorial/uiswing/dnd/dropmodedemo.html
+// Not working?
 public class ListTransferHandler extends TransferHandler {
     private int[] indices = null;
     private int addIndex = -1; //Location where items were added
@@ -47,7 +48,7 @@ public class ListTransferHandler extends TransferHandler {
     }
 
     public int getSourceActions(JComponent c) {
-        return TransferHandler.COPY_OR_MOVE;
+        return TransferHandler.COPY;
     }
 
     /**

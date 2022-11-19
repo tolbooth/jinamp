@@ -16,6 +16,7 @@ public class Playlist implements Writeable {
     private String name;
     private Set<String> tags;
 
+    // EFFECTS: Instantiates a playlist with the given name
     public Playlist(String name) {
         if (name.equals(null)) {
             throw new IllegalArgumentException("Playlist name must not be null");
@@ -25,14 +26,14 @@ public class Playlist implements Writeable {
         this.name = name;
     }
 
-    //      EFFECTS: Instantiates playlist with given name and tags
+    // EFFECTS: Instantiates playlist with given name and tags
     public Playlist(String name, HashSet<String> tags) {
         this(name);
         this.tags = tags;
     }
 
-//      EFFECTS: Adds given tags to playlist. Throw no exception for null tags,
-//      Just don't add anything.
+    // EFFECTS: Adds given tags to playlist. Throw no exception for null tags,
+    // Just don't add anything.
     public void addTags(HashSet<String> tags) {
         if (!tags.equals(null)) {
             this.tags.addAll(tags);

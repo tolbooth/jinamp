@@ -10,9 +10,6 @@ import java.util.List;
 
 // Represents a library object. Contains data and methods relating to
 // the management of tracks and playlists.
-
-
-//TODO: Add some sort of lookup to library. Store trackList as json, provide way of other readers/writers access to hash
 public class Library implements Writeable {
     private ArrayList<Track> trackList;
     private ArrayList<Playlist> playlists;
@@ -26,13 +23,6 @@ public class Library implements Writeable {
         playlists = new ArrayList<>();
         playlists.add(new Playlist("default"));
     }
-
-    // Not sure if this is necessary, if the trackList is being passed around by reference presumable we
-    // can just always modify it and rely on the values being modified everywhere
-//    public void addTrack(Track t) {
-//        // Note: This should work fine for FileHandler as trackList is passed by reference
-//        this.trackList.add(t);
-//    }
 
     // EFFECTS: Returns track with specified track name. If track not in library, throws exception.
     public Track getTrack(String trackName) throws TrackNotInLibraryException {

@@ -5,10 +5,6 @@ import persistence.Writeable;
 
 import java.util.LinkedList;
 
-//TODO: Implement seek feature
-//TODO: Transition from Clip to JLayer
-//TODO: Implement menu functionality for manipulating playlists
-
 /*
 Represents the core audio player of the project. Handles track objects and provides
 functionality for their manipulation
@@ -42,6 +38,17 @@ public class Player implements Writeable {
             currentTrack.accessClip().start();
             isPlaying = true;
         }
+    }
+
+    //      EFFECTS: Starts playback of track
+    //      MODIFIES: this
+    public void playTrack(int i) {
+        // Set the playback position in track to currentPosition
+        stopTrack();
+        assignTrack(currentPlaylist.getTrack(i));
+        currentTrack.accessClip().setMicrosecondPosition(currentPosition);
+        currentTrack.accessClip().start();
+        isPlaying = true;
     }
 
 //      EFFECTS: Pauses playback of track
@@ -98,6 +105,29 @@ public class Player implements Writeable {
         currentTrack = track;
         currentTrack.accessClip().setFramePosition(0);
         currentPosition = 0;
+    }
+
+    // EFFECTS: updates current position with clip position
+    public void updateCurrentPosition() {
+        currentPosition = currentTrack.accessClip().getMicrosecondPosition();
+    }
+
+    // EFFECTS: returns the 4 digit format for time progress through track
+    public String timeToString() {
+        long totalLength = currentTrack.accessClip().getMicrosecondLength();
+        // Exploit ternary operators so that we always have 4 digit time format
+        String currentMin = (currentPosition / 1000000) / 60 < 10 ? "0" + (currentPosition / 1000000) / 60
+                : (currentPosition / 1000000) / 60 + "";
+        String currentSec = (currentPosition / 1000000) % 60 < 10 ? "0" + (currentPosition / 1000000) % 60
+                : (currentPosition / 1000000) % 60 + "";
+        String totalMin = (totalLength / 1000000) / 60 < 10 ? "0" + (totalLength / 1000000) / 60
+                : (totalLength / 1000000) / 60 + "";
+        String totalSec = (totalLength / 1000000) % 60 < 10 ? "0" + (totalLength / 1000000) % 60
+                : (totalLength / 1000000) % 60 + "";
+
+        return currentMin + ":" + currentSec
+                + " / " + totalMin + ":" + totalSec;
+
     }
 
     @Override

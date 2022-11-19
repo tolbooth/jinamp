@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: Update implementation to reflect how library interacts w player
+// Represents JSON reader for Player objects
 public class PlayerReader extends JsonReader {
 
     public PlayerReader(String fileName) {

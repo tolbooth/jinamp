@@ -9,12 +9,16 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
+// Represents JSON reader for Library objects
 public class LibraryReader extends JsonReader {
 
     public LibraryReader(String source) {
         super(source);
     }
 
+    // EFFECTS: reads Library from file and returns it;
+    // throws IOException if an error occurs reading data from file
     @Override
     public Library read() throws IOException {
         String jsonData = readFile(file.getPath());

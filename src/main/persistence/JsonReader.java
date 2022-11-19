@@ -44,6 +44,7 @@ public abstract class JsonReader {
     }
 
     // EFFECTS: Parses track from json object
+    // MODIFIES: this
     protected Track parseTrack(JSONObject jsonObj) {
         trackBuilder = new TrackBuilder();
         return trackBuilder.buildTrack(jsonObj.getString("filename"),

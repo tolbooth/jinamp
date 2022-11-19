@@ -6,10 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.sound.sampled.*;
 
-/* Represents a track in the audio player, with associated name and audio data.
-
- */
-
+// Represents a track in the audio player, with associated name and audio data.
 public class Track implements Writeable {
 
     private String trackName;

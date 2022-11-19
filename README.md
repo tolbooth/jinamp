@@ -12,8 +12,9 @@ MONO .wav files, and not .mp3 simply wrapped as .wav.
 - You can generate the first required event related to adding Xs to a Y by adding a new Track to the library
 through the AddTrackPane. Input the artist name and track name into required fields, and the associated
 file will be added to the library as a Track with those values.
-- You can generate the second required event related to adding Xs to a Y by...
-- You can locate my visual component by... Viewing the player
+- You can generate the second required event related to adding Xs to a Y by double clicking a Track in
+the library pane to add it to the playlist pane.
+- You can locate my visual component by... Viewing the player. Buttons have custom graphics.
 - You can save the state of my application by... The state of the application is automatically saved
 - You can reload the state of my application by... The state of the application is automatically reloaded
 

@@ -1,16 +1,1 @@
-{
-  "track" : {
-    "filename" : "./././data/nicolasJaarDivorce.wav",
-    "trackName" : "Divorce",
-    "artistName" : "Nicolas Jaar"
-  },
-  "position" : 0,
-  "playlistPosition" : 0,
-  "playlist" : {
-    "name" : "default",
-    "tags" : [
-    ],
-    "tracks" : [
-    ]
-  }
-}
+{"playlist":{"name":"default","tracks":[{"filename":"./././data/nicolasJaarDivorce.wav","artistName":"Nicolas Jaar","trackName":"Divorce"}],"tags":[]},"position":94541791,"track":{"filename":"./././data/nicolasJaarDivorce.wav","artistName":"Nicolas Jaar","trackName":"Divorce"},"playlistPosition":0}

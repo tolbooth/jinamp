@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-// TODO: Update implementation to reflect how library interacts w playlist
+// Represents JSON reader for Playlist objects
 public class PlaylistReader extends JsonReader {
 
     public PlaylistReader(String fileName) {
@@ -17,7 +17,7 @@ public class PlaylistReader extends JsonReader {
     }
 
     @Override
-    // EFFECTS: reads player from file and returns it;
+    // EFFECTS: reads playlist from file and returns it;
     // throws IOException if an error occurs reading data from file
     public Playlist read() throws IOException {
         String jsonData = readFile(file.getPath());

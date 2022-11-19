@@ -13,6 +13,10 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+
+// Represents the "add track pane" for the graphical user interface of the player
+// Allows users to assign track and artist names to all playable files in
+// the data folder
 public class AddTrackPane extends JPanel implements SeesFiles, ListSelectionListener, ActionListener, FocusListener {
     private static JFrame frame;
     private ArrayList<Track> tracks;
@@ -33,8 +37,7 @@ public class AddTrackPane extends JPanel implements SeesFiles, ListSelectionList
     private JList<String> addedFiles;
 
 
-    // TODO: Finish implementation of this and test!
-    // TODO: Attempt to organize GUI elements
+    // EFFECTS: Instantiates the add track pane with provided core
     public AddTrackPane(Core core) {
         this.core = core;
         tracks = core.getLibrary().getTrackList();
@@ -53,6 +56,8 @@ public class AddTrackPane extends JPanel implements SeesFiles, ListSelectionList
         mainPanel.add(lowerPanel);
     }
 
+    // EFFECTS: Makes elements of the add track pane visible
+    // MODIFIES: this
     public void startGUI() {
         //Create and set up the window.
         frame = new JFrame("Add Tracks From File To Library");
@@ -73,11 +78,16 @@ public class AddTrackPane extends JPanel implements SeesFiles, ListSelectionList
         frame.setVisible(true);
     }
 
+    // EFFECTS: instantiates the button and adds listener
+    // MODIFIES: this
     private void buttonSetup() {
         addTrackButton = new JButton("Add Track");
         addTrackButton.addActionListener(this);
     }
 
+    // EFFECTS: sets up the text fields with focus listeners to display
+    // placeholder text when unselected
+    // MODIFIES: this
     private void textFieldSetup() {
         trackNameField = new JTextField();
         artistNameField = new JTextField();
@@ -89,6 +99,8 @@ public class AddTrackPane extends JPanel implements SeesFiles, ListSelectionList
         artistNameField.setText("Artist Name");
     }
 
+    // EFFECTS: instantiates the scroll panes and jlists for track assignment
+    // MODIFIES: this
     private void scrollPaneSetup(ArrayList<String> playableFiles) {
         currentSelectedTrackFileName = "";
         fileNamesList = new DefaultListModel<>();
@@ -107,6 +119,8 @@ public class AddTrackPane extends JPanel implements SeesFiles, ListSelectionList
         addedScrollPane = new JScrollPane(addedFiles);
     }
 
+    // EFFECTS: adds elements to lower panel
+    // MODIFIES: this
     private void lowerPanelSetup() {
         lowerPanel = new JPanel();
         lowerPanel.setLayout(new BoxLayout(lowerPanel,
@@ -116,6 +130,8 @@ public class AddTrackPane extends JPanel implements SeesFiles, ListSelectionList
         lowerPanel.add(addTrackButton);
     }
 
+    // EFFECTS: adds elements to upper panel
+    // MODIFIES: this
     private void upperPanelSetup() {
         upperPanel = new JPanel();
         upperPanel.setLayout(new BoxLayout(upperPanel, BoxLayout.LINE_AXIS));
@@ -123,7 +139,7 @@ public class AddTrackPane extends JPanel implements SeesFiles, ListSelectionList
         upperPanel.add(addedScrollPane);
     }
 
-
+    // EFFECTS: takes the given list model and populates it with values from an arraylist
     private void populateListModel(DefaultListModel<String> listModel, ArrayList<String> list) {
         for (String file : list) {
             listModel.addElement(file);
