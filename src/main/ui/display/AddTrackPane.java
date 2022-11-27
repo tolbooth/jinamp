@@ -19,7 +19,6 @@ import javax.swing.event.ListSelectionListener;
 // the data folder
 public class AddTrackPane extends JPanel implements SeesFiles, ListSelectionListener, ActionListener, FocusListener {
     private static JFrame frame;
-    private ArrayList<Track> tracks;
     private Core core;
     private TrackBuilder trackBuilder;
     private String currentSelectedTrackFileName;
@@ -40,7 +39,6 @@ public class AddTrackPane extends JPanel implements SeesFiles, ListSelectionList
     // EFFECTS: Instantiates the add track pane with provided core
     public AddTrackPane(Core core) {
         this.core = core;
-        tracks = core.getLibrary().getTrackList();
         trackBuilder = new TrackBuilder();
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -169,8 +167,8 @@ public class AddTrackPane extends JPanel implements SeesFiles, ListSelectionList
                 Track track = trackBuilder.buildTrack(fileName,
                         trackNameField.getText(), artistNameField.getText());
 
-                // Add track to list passed in
-                tracks.add(track);
+                // Add track to library of Core passed in
+                core.getLibrary().add(track);
 
                 // "move" the track to other window in toString format
                 addedFilesList.addElement(track.toString());

@@ -59,14 +59,23 @@ public class Playlist implements Writeable {
 
     public void addTrack(Track track) {
         trackList.add(track);
+        EventLog.getInstance().logEvent(new Event("Track "
+                + track.toString() + " added to Playlist."));
     }
 
     public void addTrack(Track track, int i) {
         try {
             trackList.add(i, track);
+            EventLog.getInstance().logEvent(new Event("Track "
+                    + track.toString() + " added to Playlist at position " + i + "."));
         } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
         }
+    }
+
+    public void clearTracklist() {
+        trackList.clear();
+        EventLog.getInstance().logEvent(new Event("Playlist refreshed."));
     }
 
     public Boolean removeTrack(Track track) {

@@ -39,3 +39,28 @@ expressed in an object-oriented paradigm.
 * As a user, I want to be able to play and pause a track
 * As a user, I want to be able to create and save a playlist
 * As a user, I want to be able to load a playlist from file
+
+# Phase 4: Task 2
+
+```Sat Nov 26 16:29:33 PST 2022
+Sat Nov 26 16:33:13 PST 2022
+Track Nicolas Jaar - Three Windows added to Playlist.
+Sat Nov 26 16:33:13 PST 2022
+Track Nicolas Jaar - Pass The Time added to Playlist.
+Sat Nov 26 16:33:18 PST 2022
+Track Nicolas Jaar - Three Windows played.
+Sat Nov 26 16:33:22 PST 2022
+Track Nicolas Jaar - Three Windows stopped.
+Sat Nov 26 16:33:22 PST 2022
+Track Nicolas Jaar - Pass The Time played.
+Sat Nov 26 16:33:37 PST 2022
+Track Nicolas Jaar - Pass The Time stopped.
+Sat Nov 26 16:33:37 PST 2022
+Track Nicolas Jaar - Three Windows played.
+Sat Nov 26 16:33:38 PST 2022
+Track Nicolas Jaar - Three Windows stopped.
+Sat Nov 26 16:33:38 PST 2022
+Track Nicolas Jaar - Pass The Time played.
+Sat Nov 26 16:33:41 PST 2022
+Track Nicolas Jaar - Pass The Time stopped.
+```

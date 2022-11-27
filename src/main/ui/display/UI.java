@@ -1,6 +1,8 @@
 package ui.display;
 
 import model.Core;
+import model.EventLog;
+import model.Event;
 import model.Track;
 
 import javax.swing.*;
@@ -9,6 +11,7 @@ import javax.swing.event.ListDataListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.HashMap;
+
 
 // Represents the main Graphical User Interface that coordinates Player functions,
 // along with library and playlist management.
@@ -69,22 +72,23 @@ public class UI extends JFrame {
 
     // EFFECTS: Starts all functionality required for GUI and makes it visible
     // MODIFIES: this
+
     public void startGUI() {
         if (core.checkNewTracks()) {
             AddTrackPane atPane = new AddTrackPane(core);
             atPane.startGUI();
         }
 
-        frame = new JFrame("JinAmp");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new BorderLayout());
-        frame.setPreferredSize(new Dimension(600, 600));
+        frameSetup();
 
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 core.getFileHandler().write(core.getPlayer());
                 timer.stop();
+                for (Event next : EventLog.getInstance()) {
+                    System.out.println(next);
+                }
             }
         });
 
@@ -95,6 +99,13 @@ public class UI extends JFrame {
         frame.setResizable(false);
         frame.setVisible(true);
         mainPanel.setDividerLocation(0.50);
+    }
+
+    private void frameSetup() {
+        frame = new JFrame("JinAmp");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
+        frame.setPreferredSize(new Dimension(600, 600));
     }
 
     // EFFECTS: Instantiates a timer with 10 ms delay to constantly update
@@ -177,7 +188,11 @@ public class UI extends JFrame {
         libraryPane.setPreferredSize(new Dimension(300, 600));
         libraryList.setDragEnabled(true);
         libraryList.setTransferHandler(new ListTransferHandler());
-        libraryList.addMouseListener(new MouseAdapter() {
+        libraryList.addMouseListener(getLibraryMouseListener());
+    }
+
+    private MouseAdapter getLibraryMouseListener() {
+        return new MouseAdapter() {
             public void mouseClicked(MouseEvent event) {
                 JList list = (JList) event.getSource();
                 // listen for a double click
@@ -188,7 +203,7 @@ public class UI extends JFrame {
                     updatePlaylist();
                 }
             }
-        });
+        };
     }
 
     // EFFECTS: Performs setup on the playlist pane, including
@@ -206,21 +221,25 @@ public class UI extends JFrame {
         // Don't actually want to be able to drag anything in this list
         currentPlaylistList.setDragEnabled(false);
         currentPlaylistList.setTransferHandler(new ListTransferHandler());
-        currentPlaylistList.addMouseListener(new MouseAdapter() {
+        currentPlaylistList.addMouseListener(getPlaylistMouseListener());
+        currentPlaylistList.addKeyListener(new ListKeyListener());
+        currentPlaylistPane = new JScrollPane(currentPlaylistList);
+        currentPlaylistPane.setPreferredSize(new Dimension(300, 400));
+    }
+
+    private MouseAdapter getPlaylistMouseListener() {
+        return new MouseAdapter() {
             public void mouseClicked(MouseEvent event) {
                 JList list = (JList) event.getSource();
                 // listen for a double click
                 if (event.getClickCount() == 2) {
                     int i = list.locationToIndex(event.getPoint());
-                    // play track double clicked on
+                    core.getPlayer().stopTrack();
                     core.getPlayer().playTrack(i);
                     updateLabel();
                 }
             }
-        });
-        currentPlaylistList.addKeyListener(new ListKeyListener());
-        currentPlaylistPane = new JScrollPane(currentPlaylistList);
-        currentPlaylistPane.setPreferredSize(new Dimension(300, 400));
+        };
     }
 
     // EFFECTS: Performs setup on the track info pane
@@ -242,10 +261,9 @@ public class UI extends JFrame {
     // EFFECTS: Clears the current playlist and updates it with whatever is being displayed a current playlist
     // MODIFIES: this
     private void updatePlaylist() {
-        core.getPlayer().getCurrentPlaylist().getTrackList().clear();
+        core.getPlayer().getCurrentPlaylist().clearTracklist();
         for (int i = 0; i < currentPlaylistModel.getSize(); i++) {
-            core.getPlayer().getCurrentPlaylist().getTrackList()
-                    .add(libraryHash.get(currentPlaylistModel.getElementAt(i)));
+            core.getPlayer().getCurrentPlaylist().addTrack(libraryHash.get(currentPlaylistModel.getElementAt(i)));
         }
     }
 
@@ -289,8 +307,10 @@ public class UI extends JFrame {
                 core.getPlayer().stopTrack();
             } else if (e.getSource().equals(skipFwButton)) {
                 core.getPlayer().nextTrack();
+                currentPlaylistList.setSelectedIndex(currentPlaylistList.getSelectedIndex() + 1);
             } else if (e.getSource().equals(skipBwButton)) {
                 core.getPlayer().previousTrack();
+                currentPlaylistList.setSelectedIndex(currentPlaylistList.getSelectedIndex() - 1);
             }
         }
     }

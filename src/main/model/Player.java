@@ -32,6 +32,8 @@ public class Player implements Writeable {
             // Set the playback position in track to currentPosition
             currentTrack.accessClip().setMicrosecondPosition(currentPosition);
             currentTrack.accessClip().start();
+            EventLog.getInstance().logEvent(new Event("Track "
+                    + currentTrack.toString() + " played."));
         }
     }
 
@@ -45,6 +47,8 @@ public class Player implements Writeable {
         assignTrack(currentPlaylist.getTrack(i));
         currentTrack.accessClip().setMicrosecondPosition(currentPosition);
         currentTrack.accessClip().start();
+        EventLog.getInstance().logEvent(new Event("Track "
+                + currentTrack.toString() + " played."));
     }
 
 //      EFFECTS: Pauses playback of track
@@ -54,6 +58,8 @@ public class Player implements Writeable {
             // Store current position before stopping playback
             currentPosition = currentTrack.accessClip().getMicrosecondPosition();
             currentTrack.accessClip().stop();
+            EventLog.getInstance().logEvent(new Event("Track "
+                    + currentTrack.toString() + " paused."));
         }
         return false;
     }
@@ -64,6 +70,8 @@ public class Player implements Writeable {
         currentTrack.accessClip().stop();
         currentTrack.accessClip().setFramePosition(0);
         currentPosition = 0;
+        EventLog.getInstance().logEvent(new Event("Track "
+                + currentTrack.toString() + " stopped."));
     }
 
 //      EFFECTS: Moves play to next track in playlist

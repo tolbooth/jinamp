@@ -34,6 +34,12 @@ public class Library implements Writeable {
         throw new TrackNotInLibraryException();
     }
 
+    public void add(Track t) {
+        trackList.add(t);
+        EventLog.getInstance().logEvent(new Event("Track "
+                + t.toString() + " added to Library."));
+    }
+
     public void assignTrackList(ArrayList<Track> trackList) {
         this.trackList = trackList;
     }
