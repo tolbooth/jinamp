@@ -20,7 +20,6 @@ import javax.swing.event.ListSelectionListener;
 public class AddTrackPane extends JPanel implements SeesFiles, ListSelectionListener, ActionListener, FocusListener {
     private static JFrame frame;
     private Core core;
-    private TrackBuilder trackBuilder;
     private String currentSelectedTrackFileName;
     private JPanel mainPanel;
     private JPanel lowerPanel;
@@ -39,7 +38,6 @@ public class AddTrackPane extends JPanel implements SeesFiles, ListSelectionList
     // EFFECTS: Instantiates the add track pane with provided core
     public AddTrackPane(Core core) {
         this.core = core;
-        trackBuilder = new TrackBuilder();
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -164,7 +162,7 @@ public class AddTrackPane extends JPanel implements SeesFiles, ListSelectionList
                 String fileName = fileNames.getSelectedValue().toString();
 
                 // Construct track object from input data fields and selected file
-                Track track = trackBuilder.buildTrack(fileName,
+                Track track = core.getFileHandler().getTrackBuilder().buildTrack(fileName,
                         trackNameField.getText(), artistNameField.getText());
 
                 // Add track to library of Core passed in

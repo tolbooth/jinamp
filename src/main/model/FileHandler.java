@@ -120,4 +120,8 @@ public class FileHandler implements SeesFiles {
         libraryRead = new LibraryReader(source);
         return libraryRead.read();
     }
+
+    public TrackBuilder getTrackBuilder() {
+        return this.trackBuilder;
+    }
 }

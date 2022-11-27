@@ -64,3 +64,24 @@ Track Nicolas Jaar - Pass The Time played.
 Sat Nov 26 16:33:41 PST 2022
 Track Nicolas Jaar - Pass The Time stopped.
 ```
+
+# Phase 4: Task 3
+
+Thankfully during Phase 3 of the project I took the time to consider ways
+in which my code could be structured better, and rewrote the entire
+project from close-to-scratch to ensure less messy dependecies. There are
+still ways in which the structuring could be improved, however.
+One of the main ways I would make the codebase more readable and insodoing
+more maintainable, would be to separate the User Interface classes more
+effectively. As it stands, though the methods themselves are well compartmentalized,
+The overall UI consists of only 2 classes. My original plan was to subdivide
+this into classes that represented clusters of functionality in the UI,
+i.e. having a class for the Playlist pane, a class for the Library pane,
+a class for the Playback controls, etc. 
+
+The other main issue I take with my project is how the AddTrackPane interacts
+with the main Player. With a better understanding of threading, I could ensure
+that Player never opens if there are tracks to be added, or at least that
+the library and playlist update properly in the case of additional tracks being
+added. Though this is less to do with refactoring, and more to do with error on 
+my part.
