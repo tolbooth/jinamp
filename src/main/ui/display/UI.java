@@ -105,7 +105,7 @@ public class UI extends JFrame {
         frame = new JFrame("JinAmp");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
-        frame.setPreferredSize(new Dimension(600, 600));
+        frame.setPreferredSize(new Dimension(660, 600));
     }
 
     // EFFECTS: Instantiates a timer with 10 ms delay to constantly update
@@ -249,7 +249,6 @@ public class UI extends JFrame {
         trackInfoPane.setPreferredSize(new Dimension(300, 200));
         JPanel trackTextPane = new JPanel();
         trackTextPane.setBorder(BorderFactory.createLoweredBevelBorder());
-        trackTextPane.setBackground(new Color(255, 255, 255));
         trackInfoPane.add(buttonPane);
         trackInfoPane.setLayout(new GridLayout(2, 1));
         trackTextPane.add(trackInfoLabel);
