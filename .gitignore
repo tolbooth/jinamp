@@ -1,3 +1,6 @@
 *.class
 workspace.xml
-data/*.wav
+!/data
+/data/*
+!/data/graphics
+
